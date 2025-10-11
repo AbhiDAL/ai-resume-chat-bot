@@ -1,6 +1,6 @@
 // cosine similarity + top-k
 // /lib/retrieve.ts
-import type { SimilarResult } from "./types";
+import type { SimilarResult } from "./types.ts";
 
 export function cosineSim(a: number[], b: number[]) {
   let dot=0, na=0, nb=0;

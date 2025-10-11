@@ -268,7 +268,7 @@ Ask me anything about their background, experience, or what specific skills they
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl h-[75vh] flex flex-col"
+            className="scrollbar-hide bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl overflow-auto h-[75vh] flex flex-col box-border"
           >
             <h2 className="text-xl font-semibold mb-6 flex items-center gap-3 text-white">
               <div className="p-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg">
@@ -286,7 +286,7 @@ Ask me anything about their background, experience, or what specific skills they
             className="hidden"
           />
           
-          <div className="flex flex-col h-full space-y-6">
+          <div className="flex flex-col space-y-6">
             <motion.button
               onClick={() => fileInputRef.current?.click()}
               whileHover={{ scale: 1.02, y: -2 }}
