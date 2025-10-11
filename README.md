@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AI Résumé Chatbot
 
-## Getting Started
+A smart web application that allows recruiters to upload candidate résumé and project files, then ask questions to get AI-powered answers grounded in the candidate's actual experience and work.
 
-First, run the development server:
+## 🌟 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **📄 File Upload**: Upload résumé and project markdown/text files
+- **🤖 AI-Powered Q&A**: Ask questions about the candidate's experience, skills, and projects
+- **🔍 Source Attribution**: Every answer shows which files the information came from
+- **🎙️ Voice Input**: Use speech-to-text for hands-free questioning
+- **🔊 Text-to-Speech**: Listen to AI responses with built-in voice synthesis
+- **📱 Responsive Design**: Works seamlessly on desktop and mobile devices
+- **⚡ Real-time Streaming**: Watch answers appear in real-time as the AI generates them
+
+## 🏗️ Architecture
+
+- **Frontend**: Next.js 15 with TypeScript and TailwindCSS
+- **Backend**: Next.js API routes with OpenAI integration
+- **AI**: GPT-4 for chat completion, text-embedding-3-small for semantic search
+- **Data**: In-memory vector storage for embeddings (easily upgradeable to Pinecone/Supabase)
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 18+ 
+- OpenAI API key
+
+### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone <your-repo-url>
+   cd resume-chat-bot
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables**
+   ```bash
+   cp .env.local.example .env.local
+   ```
+   
+   Edit `.env.local` and add your OpenAI API key:
+   ```bash
+   OPENAI_API_KEY=your_openai_api_key_here
+   ```
+
+4. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+5. **Open your browser**
+   Navigate to [http://localhost:3000](http://localhost:3000)
+
+## 💻 How to Use
+
+1. **Upload Files**: Click the upload area and select résumé and project files (.md or .txt format)
+2. **Wait for Processing**: The system will automatically create embeddings from your uploaded content
+3. **Ask Questions**: Type or speak questions about the candidate's experience
+4. **Get Answers**: Receive AI-generated responses with source citations
+5. **Listen to Responses**: Use the speaker icon to hear answers read aloud
+
+### Example Questions
+- "What programming languages does this person know?"
+- "Tell me about their recent projects"
+- "What's their experience with React and TypeScript?"
+- "How many years of experience do they have?"
+- "What achievements or outcomes did they deliver?"
+
+## 📁 Project Structure
+
+```
+/src/app
+  /page.tsx                 # Main UI with file upload and chat
+  /api/ask/route.ts        # Chat API with retrieval and streaming
+  /api/build-embeddings/   # Embedding generation endpoint
+/lib
+  /embeddings.ts           # Vector creation and storage
+  /retrieve.ts             # Similarity search and ranking  
+  /prompt.ts               # AI prompt templates
+  /types.ts                # TypeScript definitions
+/data                      # Sample files for testing
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Technology Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: TailwindCSS
+- **Icons**: Heroicons
+- **AI**: OpenAI GPT-4 + embeddings
+- **Voice**: Web Speech API (built-in browser support)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🔧 Configuration
 
-## Learn More
+### Environment Variables
+- `OPENAI_API_KEY`: Your OpenAI API key (required)
+- `OPENAI_CHAT_MODEL`: Chat model (default: gpt-4o-mini)  
+- `OPENAI_EMBED_MODEL`: Embedding model (default: text-embedding-3-small)
 
-To learn more about Next.js, take a look at the following resources:
+### Customization
+- Modify `lib/prompt.ts` to adjust AI behavior and response style
+- Update `lib/embeddings.ts` to change chunk size or embedding logic
+- Edit `src/app/page.tsx` to customize the UI and user experience
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📊 Performance & Scalability
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Current Setup (Demo-Ready)**:
+- In-memory vector storage
+- File-based embedding persistence  
+- Suitable for 100s of documents
 
-## Deploy on Vercel
+**Production Upgrades**:
+- **Database**: Move to Supabase pgvector or Pinecone for vector storage
+- **Caching**: Add Redis for embedding and response caching
+- **Storage**: Use AWS S3 or similar for file storage
+- **Authentication**: Add user accounts and file management
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Vercel (Recommended)
+1. Push code to GitHub
+2. Connect repository to Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy automatically
+
+### Manual Deployment
+```bash
+npm run build
+npm start
+```
+
+## 🧪 Testing
+
+The `/data` folder includes sample files for testing:
+- `sample-resume.md` - Example software engineer résumé
+- `ecommerce-project.md` - Detailed project description
+- `ai-task-management.md` - Complex technical project
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Built following the architecture outlined in `instructions.md`
+- Inspired by modern AI-powered recruitment tools
+- Uses OpenAI's powerful language models for natural conversations
