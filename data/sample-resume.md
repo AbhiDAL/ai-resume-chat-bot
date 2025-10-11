@@ -1,10 +1,10 @@
-# John Doe - Software Engineer
+# Alex Carter - Software Engineer
 
 ## Contact Information
-- Email: john.doe@email.com
+- Email: alex.carter@email.com
 - Phone: (555) 123-4567
-- LinkedIn: linkedin.com/in/johndoe
-- GitHub: github.com/johndoe
+- LinkedIn: linkedin.com/in/alexcarter
+- GitHub: github.com/alexcarter
 - Location: San Francisco, CA
 
 ## Professional Summary

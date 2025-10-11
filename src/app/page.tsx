@@ -1,6 +1,6 @@
 "use client";
 // UI: input, chat, streaming, file upload with premium design
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DocumentPlusIcon, MicrophoneIcon, SpeakerWaveIcon } from "@heroicons/react/24/outline";
 import { Sparkles, Brain, User } from "lucide-react";
@@ -15,8 +15,70 @@ export default function Page() {
   const [embeddingsReady, setEmbeddingsReady] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [candidateName, setCandidateName] = useState<string>("");
+  const [hasIntroduced, setHasIntroduced] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const areaRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Fix hydration mismatch
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Extract candidate name from resume content
+  function extractCandidateName(files: UploadedFile[]): string {
+    const resumeFile = files.find(f => f.type === 'resume');
+    if (!resumeFile) return "the candidate";
+    
+    // Simple name extraction - look for common patterns
+    const content = resumeFile.content;
+    const lines = content.split('\n').slice(0, 10); // Check first 10 lines
+    
+    for (const line of lines) {
+      // Look for name patterns like "# John Doe" or "John Doe - Software Engineer"
+      const nameMatch = line.match(/^#\s*([A-Z][a-z]+ [A-Z][a-z]+)/) || 
+                       line.match(/^([A-Z][a-z]+ [A-Z][a-z]+)\s*[-–—]/) ||
+                       line.match(/^([A-Z][a-z]+ [A-Z][a-z]+)\s*$/) ||
+                       line.match(/Name:\s*([A-Z][a-z]+ [A-Z][a-z]+)/);
+      
+      if (nameMatch && nameMatch[1]) {
+        return nameMatch[1];
+      }
+    }
+    return "the candidate";
+  }
+
+  // Generate introduction message
+  async function generateIntroMessage(name: string) {
+    if (hasIntroduced) return;
+    
+    const displayName = name === "the candidate" ? "this candidate" : name;
+    const introText = `Hi there! I've analyzed **${displayName}'s** résumé and project files. 
+
+I can help you discover:
+• **Technical skills** and programming languages
+• **Professional experience** and career highlights  
+• **Project achievements** and outcomes
+• **What makes them unique** as a candidate
+
+Ask me anything about their background, experience, or what specific skills they bring to the table!`;
+    
+    const introMessage: Message = { 
+      role: "assistant", 
+      text: introText, 
+      sources: ["AI Introduction"] 
+    };
+    
+    setMessages(prev => [...prev, introMessage]);
+    setHasIntroduced(true);
+    
+    // Auto-speak a shorter version of the introduction
+    const spokenText = `Hi there! I've analyzed ${displayName}'s résumé and project files. Ask me anything about their experience, skills, or what makes them unique.`;
+    if (!isSpeaking) {
+      setTimeout(() => speakAnswer(spokenText), 1000);
+    }
+  }
 
   // File upload handler
   async function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -32,7 +94,12 @@ export default function Page() {
       }
     }
     
-    setUploadedFiles(prev => [...prev, ...newFiles]);
+    const allFiles = [...uploadedFiles, ...newFiles];
+    setUploadedFiles(allFiles);
+    
+    // Extract candidate name from uploaded files
+    const extractedName = extractCandidateName(allFiles);
+    setCandidateName(extractedName);
     
     // Build embeddings for uploaded files
     if (newFiles.length > 0) {
@@ -41,9 +108,13 @@ export default function Page() {
         await fetch("/api/build-embeddings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ files: [...uploadedFiles, ...newFiles] }),
+          body: JSON.stringify({ files: allFiles }),
         });
         setEmbeddingsReady(true);
+        
+        // Generate introduction message after embeddings are ready
+        setTimeout(() => generateIntroMessage(extractedName), 1000);
+        
       } catch (error) {
         console.error("Failed to build embeddings:", error);
       }
@@ -164,9 +235,25 @@ export default function Page() {
               AI Resume Intelligence
             </h1>
           </div>
-          <p className="text-gray-300 text-lg">
-            Upload candidate files and unlock AI-powered insights with intelligent questioning
-          </p>
+          
+          {candidateName && candidateName !== "the candidate" ? (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center mb-2"
+            >
+              <p className="text-gray-300 text-lg">
+                Currently analyzing: <span className="text-cyan-300 font-semibold">{candidateName}</span>
+              </p>
+              <p className="text-gray-400 text-sm">
+                Ask intelligent questions about their experience and skills
+              </p>
+            </motion.div>
+          ) : (
+            <p className="text-gray-300 text-lg">
+              Upload candidate files and unlock AI-powered insights with intelligent questioning
+            </p>
+          )}
         </motion.div>
 
         {/* File Upload Section */}
@@ -257,7 +344,7 @@ export default function Page() {
                   className="flex items-center gap-2 text-xs text-emerald-400 font-medium bg-emerald-500/10 rounded-lg p-2 border border-emerald-500/20"
                 >
                   <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  Intelligence Ready - Ask Away!
+                  {hasIntroduced ? "Intelligence Ready - Ask Away!" : "Preparing introduction..."}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -471,16 +558,18 @@ export default function Page() {
               </motion.button>
             </form>
             
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="text-xs text-gray-400 mt-3 flex items-center gap-2"
-            >
-              <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
-              Powered by AI intelligence • Answers sourced from uploaded files
-              {uploadedFiles.length === 0 && " • Upload files to unlock insights"}
-            </motion.p>
+            {isClient && (
+              <motion.p 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="text-xs text-gray-400 mt-3 flex items-center gap-2"
+              >
+                <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
+                Powered by AI intelligence • Answers sourced from uploaded files
+                {uploadedFiles.length === 0 && " • Upload files to unlock insights"}
+              </motion.p>
+            )}
           </div>
         </motion.div>
       </main>
