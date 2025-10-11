@@ -123,16 +123,71 @@ A smart web application that allows recruiters to upload candidate résumé and 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
-1. Push code to GitHub
-2. Connect repository to Vercel
-3. Add environment variables in Vercel dashboard
-4. Deploy automatically
+
+#### Option 1: Deploy via Vercel CLI
+1. **Install Vercel CLI**
+   ```bash
+   npm i -g vercel
+   ```
+
+2. **Login to Vercel**
+   ```bash
+   vercel login
+   ```
+
+3. **Deploy from your project directory**
+   ```bash
+   vercel
+   ```
+
+4. **Set environment variables**
+   ```bash
+   vercel env add OPENAI_API_KEY
+   vercel env add OPENAI_CHAT_MODEL
+   vercel env add OPENAI_EMBED_MODEL
+   ```
+
+5. **Redeploy with environment variables**
+   ```bash
+   vercel --prod
+   ```
+
+#### Option 2: Deploy via Vercel Dashboard
+1. **Push code to GitHub** (if not already done)
+   ```bash
+   git add .
+   git commit -m "Prepare for Vercel deployment"
+   git push origin main
+   ```
+
+2. **Go to [vercel.com](https://vercel.com) and sign in**
+
+3. **Import your GitHub repository**
+   - Click "New Project"
+   - Select your GitHub repository
+   - Vercel will auto-detect Next.js settings
+
+4. **Configure Environment Variables**
+   - In project settings, add:
+   - `OPENAI_API_KEY`: Your OpenAI API key
+   - `OPENAI_CHAT_MODEL`: `gpt-4o-mini`
+   - `OPENAI_EMBED_MODEL`: `text-embedding-3-small`
+
+5. **Deploy**
+   - Click "Deploy"
+   - Your app will be live at `https://your-project.vercel.app`
 
 ### Manual Deployment
 ```bash
 npm run build
 npm start
 ```
+
+### Environment Variables for Production
+Make sure to set these in your Vercel dashboard:
+- `OPENAI_API_KEY`: Your OpenAI API key (required)
+- `OPENAI_CHAT_MODEL`: `gpt-4o-mini` (or your preferred model)
+- `OPENAI_EMBED_MODEL`: `text-embedding-3-small`
 
 ## 🧪 Testing
 
