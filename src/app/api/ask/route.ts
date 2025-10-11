@@ -2,9 +2,9 @@
 // /app/api/ask/route.ts
 import { NextRequest } from "next/server";
 import OpenAI from "openai";
-import { loadEmbeddingIndex } from "@/lib/embeddings";
-import { topK } from "@/lib/retrieve";
-import { systemPrompt, userPrompt } from "@/lib/prompt";
+import { loadEmbeddingIndex } from "../../../../lib/embeddings";
+import { topK } from "../../../../lib/retrieve";
+import { systemPrompt, userPrompt } from "../../../../lib/prompt";
 
 export const runtime = "nodejs"; // or "edge" if you prefer
 

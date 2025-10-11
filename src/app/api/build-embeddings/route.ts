@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { buildEmbeddingIndexFromFiles } from "../../../lib/embeddings";
-import type { UploadedFile } from "../../../lib/types";
+import { buildEmbeddingIndexFromFiles } from "../../../../lib/embeddings";
+import type { UploadedFile } from "../../../../lib/types";
 
 export async function POST(req: NextRequest) {
   try {

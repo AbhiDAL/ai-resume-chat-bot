@@ -266,7 +266,7 @@ Ask me anything about their background, experience, or what specific skills they
               <div className="p-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg">
                 <DocumentPlusIcon className="w-5 h-5 text-white" />
               </div>
-              Upload Intelligence Files
+              Upload Resume and Project Files
             </h2>
           
           <input
@@ -292,7 +292,7 @@ Ask me anything about their background, experience, or what specific skills they
                 <DocumentPlusIcon className="w-10 h-10 mx-auto mb-3 text-cyan-300 group-hover:text-cyan-200 transition-colors" />
               </motion.div>
               <p className="text-sm text-gray-300 group-hover:text-white transition-colors mb-2">
-                Click to upload résumé and project files
+                Click to upload resume and project files
               </p>
               <p className="text-xs text-gray-400">Supports .md and .txt formats</p>
             </motion.button>
@@ -300,7 +300,7 @@ Ask me anything about their background, experience, or what specific skills they
             <div className="flex-1 space-y-4 min-h-0">
               <p className="text-base font-medium text-white flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-cyan-400" />
-                Intelligence Files
+                Uploaded Files
               </p>
               {uploadedFiles.length === 0 ? (
                 <p className="text-sm text-gray-400 text-center py-8">No files uploaded yet</p>
