@@ -4,7 +4,7 @@ An intelligent web application that enables recruiters and hiring managers to up
 
 ## Screenshots
 
-![Screenshot](https://github.com/KarinaKKarinaK/resume-chat-bot/blob/main/data/Screenshot%202025-10-11%20at%2023.59.23.png)
+![Screenshot](https://github.com/KarinaKKarinaK/resume-chat-bot/blob/main/data/Screenshot%202025-10-11%20at%2023.59.32.png)
 ![Screenshot](https://github.com/KarinaKKarinaK/resume-chat-bot/blob/main/data/Screenshot%202025-10-11%20at%2023.59.50.png)
 
 ## Core Features
