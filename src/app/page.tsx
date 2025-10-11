@@ -217,7 +217,7 @@ Ask me anything about their background, experience, or what specific skills they
 
   return (
     <div className="min-h-screen bg-black">
-      <main className="mx-auto max-w-4xl p-6 space-y-6">
+      <main className="mx-auto max-w-full px-4 py-6 space-y-6">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -253,110 +253,112 @@ Ask me anything about their background, experience, or what specific skills they
           )}
         </motion.div>
 
-        {/* File Upload Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl"
-        >
-          <h2 className="text-xl font-semibold mb-6 flex items-center gap-3 text-white">
-            <div className="p-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg">
-              <DocumentPlusIcon className="w-5 h-5 text-white" />
-            </div>
-            Upload Intelligence Files
-          </h2>
-        
-        <input
-          ref={fileInputRef}
-          type="file"
-          multiple
-          accept=".md,.txt"
-          onChange={handleFileUpload}
-          className="hidden"
-        />
-        
-        <div className="grid md:grid-cols-2 gap-4">
-          <motion.button
-            onClick={() => fileInputRef.current?.click()}
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="group border-2 border-dashed border-white/30 rounded-xl p-8 text-center hover:border-cyan-400/50 transition-all duration-300 bg-white/5 backdrop-blur-sm"
+        {/* Two Column Layout */}
+        <div className="grid lg:grid-cols-[2fr_3fr] gap-4 min-h-[75vh]">
+          {/* Left Column - File Upload Section */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl h-[75vh] flex flex-col"
           >
-            <motion.div
-              animate={{ rotate: uploadedFiles.length > 0 ? 360 : 0 }}
-              transition={{ duration: 0.6, ease: "easeInOut" }}
-            >
-              <DocumentPlusIcon className="w-10 h-10 mx-auto mb-3 text-cyan-300 group-hover:text-cyan-200 transition-colors" />
-            </motion.div>
-            <p className="text-sm text-gray-300 group-hover:text-white transition-colors">
-              Click to upload résumé and project files
-            </p>
-            <p className="text-xs text-gray-400 mt-1">Supports .md and .txt formats</p>
-          </motion.button>
-          
-          <div className="space-y-3">
-            <p className="text-sm font-medium text-white flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              Intelligence Files
-            </p>
-            {uploadedFiles.length === 0 ? (
-              <p className="text-sm text-gray-400">No files uploaded yet</p>
-            ) : (
-              <div className="space-y-2">
-                <AnimatePresence>
-                  {uploadedFiles.map((file, i) => (
-                    <motion.div 
-                      key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3, delay: i * 0.1 }}
-                      className="flex items-center gap-3 text-sm bg-white/10 rounded-lg p-3 backdrop-blur-sm border border-white/10"
-                    >
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                        file.type === 'resume' 
-                          ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' 
-                          : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white'
-                      }`}>
-                        {file.type}
-                      </span>
-                      <span className="text-gray-200 flex-1">{file.name}</span>
-                      <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full"
-                      />
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
+            <h2 className="text-xl font-semibold mb-6 flex items-center gap-3 text-white">
+              <div className="p-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg">
+                <DocumentPlusIcon className="w-5 h-5 text-white" />
               </div>
-            )}
-            <AnimatePresence>
-              {embeddingsReady && (
-                <motion.div 
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  className="flex items-center gap-2 text-xs text-emerald-400 font-medium bg-emerald-500/10 rounded-lg p-2 border border-emerald-500/20"
-                >
-                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
-                  {hasIntroduced ? "Intelligence Ready - Ask Away!" : "Preparing introduction..."}
-                </motion.div>
+              Upload Intelligence Files
+            </h2>
+          
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            accept=".md,.txt"
+            onChange={handleFileUpload}
+            className="hidden"
+          />
+          
+          <div className="flex flex-col h-full space-y-6">
+            <motion.button
+              onClick={() => fileInputRef.current?.click()}
+              whileHover={{ scale: 1.02, y: -2 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full group border-2 border-dashed border-white/30 rounded-xl p-6 text-center hover:border-cyan-400/50 transition-all duration-300 bg-white/5 backdrop-blur-sm"
+            >
+              <motion.div
+                animate={{ rotate: uploadedFiles.length > 0 ? 360 : 0 }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
+              >
+                <DocumentPlusIcon className="w-10 h-10 mx-auto mb-3 text-cyan-300 group-hover:text-cyan-200 transition-colors" />
+              </motion.div>
+              <p className="text-sm text-gray-300 group-hover:text-white transition-colors mb-2">
+                Click to upload résumé and project files
+              </p>
+              <p className="text-xs text-gray-400">Supports .md and .txt formats</p>
+            </motion.button>
+            
+            <div className="flex-1 space-y-4 min-h-0">
+              <p className="text-base font-medium text-white flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-cyan-400" />
+                Intelligence Files
+              </p>
+              {uploadedFiles.length === 0 ? (
+                <p className="text-sm text-gray-400 text-center py-8">No files uploaded yet</p>
+              ) : (
+                <div className="space-y-3 overflow-auto flex-1 min-h-0 custom-scrollbar">
+                  <AnimatePresence>
+                    {uploadedFiles.map((file, i) => (
+                      <motion.div 
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.3, delay: i * 0.1 }}
+                        className="flex items-center gap-3 text-sm bg-white/10 rounded-lg p-4 backdrop-blur-sm border border-white/10"
+                      >
+                        <span className={`px-3 py-2 rounded-full text-xs font-medium ${
+                          file.type === 'resume' 
+                            ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' 
+                            : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white'
+                        }`}>
+                          {file.type}
+                        </span>
+                        <span className="text-gray-200 flex-1 font-medium">{file.name}</span>
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                          className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full"
+                        />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
               )}
-            </AnimatePresence>
+              <AnimatePresence>
+                {embeddingsReady && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className="flex items-center gap-2 text-sm text-emerald-400 font-medium bg-emerald-500/10 rounded-lg p-3 border border-emerald-500/20"
+                  >
+                    <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                    {hasIntroduced ? "Intelligence Ready - Ask Away!" : "Preparing introduction..."}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Chat Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-xl"
-        >
-          <div ref={areaRef} className="h-[50vh] overflow-auto p-6 space-y-4 bg-black custom-scrollbar">
+          {/* Right Column - Chat Section */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-xl h-[75vh] flex flex-col"
+          >
+          <div ref={areaRef} className="flex-1 overflow-auto p-6 space-y-4 bg-black custom-scrollbar">
             {messages.length === 0 && (
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
@@ -569,6 +571,7 @@ Ask me anything about their background, experience, or what specific skills they
             )}
           </div>
         </motion.div>
+        </div>
       </main>
     </div>
   );
