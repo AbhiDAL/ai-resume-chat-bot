@@ -1,7 +1,10 @@
 "use client";
-// UI: input, chat, streaming, file upload
+// UI: input, chat, streaming, file upload with premium design
 import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { DocumentPlusIcon, MicrophoneIcon, SpeakerWaveIcon } from "@heroicons/react/24/outline";
+import { Sparkles, Brain, User } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import type { Message, UploadedFile } from "../../lib/types";
 
 export default function Page() {
@@ -142,20 +145,43 @@ export default function Page() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl p-6 space-y-6">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold mb-2">AI Résumé Chatbot</h1>
-        <p className="text-gray-600">
-          Upload your résumé and project files, then ask questions about the candidate's experience.
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      {/* Background gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-600/20"></div>
+      
+      <main className="relative z-10 mx-auto max-w-4xl p-6 space-y-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center"
+        >
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="p-3 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl">
+              <Brain className="w-8 h-8 text-cyan-400" />
+            </div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-white via-cyan-200 to-purple-200 bg-clip-text text-transparent">
+              AI Resume Intelligence
+            </h1>
+          </div>
+          <p className="text-gray-300 text-lg">
+            Upload candidate files and unlock AI-powered insights with intelligent questioning
+          </p>
+        </motion.div>
 
-      {/* File Upload Section */}
-      <div className="bg-gray-50 rounded-xl p-6">
-        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <DocumentPlusIcon className="w-5 h-5" />
-          Upload Files
-        </h2>
+        {/* File Upload Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-xl"
+        >
+          <h2 className="text-xl font-semibold mb-6 flex items-center gap-3 text-white">
+            <div className="p-2 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-lg">
+              <DocumentPlusIcon className="w-5 h-5 text-white" />
+            </div>
+            Upload Intelligence Files
+          </h2>
         
         <input
           ref={fileInputRef}
@@ -167,126 +193,297 @@ export default function Page() {
         />
         
         <div className="grid md:grid-cols-2 gap-4">
-          <button
+          <motion.button
             onClick={() => fileInputRef.current?.click()}
-            className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors"
+            whileHover={{ scale: 1.02, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+            className="group border-2 border-dashed border-white/30 rounded-xl p-8 text-center hover:border-cyan-400/50 transition-all duration-300 bg-white/5 backdrop-blur-sm"
           >
-            <DocumentPlusIcon className="w-8 h-8 mx-auto mb-2 text-gray-400" />
-            <p className="text-sm text-gray-600">
-              Click to upload résumé and project files (.md, .txt)
+            <motion.div
+              animate={{ rotate: uploadedFiles.length > 0 ? 360 : 0 }}
+              transition={{ duration: 0.6, ease: "easeInOut" }}
+            >
+              <DocumentPlusIcon className="w-10 h-10 mx-auto mb-3 text-cyan-300 group-hover:text-cyan-200 transition-colors" />
+            </motion.div>
+            <p className="text-sm text-gray-300 group-hover:text-white transition-colors">
+              Click to upload résumé and project files
             </p>
-          </button>
+            <p className="text-xs text-gray-400 mt-1">Supports .md and .txt formats</p>
+          </motion.button>
           
-          <div className="space-y-2">
-            <p className="text-sm font-medium text-gray-700">Uploaded Files:</p>
+          <div className="space-y-3">
+            <p className="text-sm font-medium text-white flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-cyan-400" />
+              Intelligence Files
+            </p>
             {uploadedFiles.length === 0 ? (
-              <p className="text-sm text-gray-500">No files uploaded yet</p>
+              <p className="text-sm text-gray-400">No files uploaded yet</p>
             ) : (
-              <div className="space-y-1">
-                {uploadedFiles.map((file, i) => (
-                  <div key={i} className="flex items-center gap-2 text-sm">
-                    <span className={`px-2 py-1 rounded text-xs ${
-                      file.type === 'resume' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'
-                    }`}>
-                      {file.type}
-                    </span>
-                    <span className="text-gray-600">{file.name}</span>
-                  </div>
-                ))}
+              <div className="space-y-2">
+                <AnimatePresence>
+                  {uploadedFiles.map((file, i) => (
+                    <motion.div 
+                      key={i}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.3, delay: i * 0.1 }}
+                      className="flex items-center gap-3 text-sm bg-white/10 rounded-lg p-3 backdrop-blur-sm border border-white/10"
+                    >
+                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        file.type === 'resume' 
+                          ? 'bg-gradient-to-r from-blue-500 to-cyan-500 text-white' 
+                          : 'bg-gradient-to-r from-green-500 to-emerald-500 text-white'
+                      }`}>
+                        {file.type}
+                      </span>
+                      <span className="text-gray-200 flex-1">{file.name}</span>
+                      <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-full"
+                      />
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
             )}
-            {embeddingsReady && (
-              <div className="text-xs text-green-600 font-medium">✓ Embeddings ready</div>
-            )}
+            <AnimatePresence>
+              {embeddingsReady && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  className="flex items-center gap-2 text-xs text-emerald-400 font-medium bg-emerald-500/10 rounded-lg p-2 border border-emerald-500/20"
+                >
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse" />
+                  Intelligence Ready - Ask Away!
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-        </div>
-      </div>
+          </div>
+        </motion.div>
 
-      {/* Chat Section */}
-      <div className="border rounded-xl overflow-hidden">
-        <div ref={areaRef} className="h-[50vh] overflow-auto p-4 space-y-4 bg-white">
-          {messages.length === 0 && (
-            <div className="text-center text-gray-500 py-8">
-              <p>Upload some files and ask questions about the candidate's experience!</p>
-              <p className="text-sm mt-2">Try: "What programming languages does this person know?" or "Tell me about their recent projects"</p>
-            </div>
-          )}
+        {/* Chat Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-xl"
+        >
+          <div ref={areaRef} className="h-[50vh] overflow-auto p-6 space-y-4 bg-gradient-to-b from-transparent to-black/20 custom-scrollbar">
+            {messages.length === 0 && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="text-center py-12"
+              >
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl mb-4">
+                  <Brain className="w-8 h-8 text-white" />
+                </div>
+                <p className="text-gray-200 text-lg mb-2">Ready for intelligent conversations</p>
+                <p className="text-sm text-gray-400">Upload files and discover insights through AI-powered questioning</p>
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
+                  {[
+                    "What technologies does this person use?",
+                    "Tell me about their recent achievements",
+                    "What's their experience level?"
+                  ].map((suggestion, i) => (
+                    <motion.button
+                      key={i}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 + i * 0.1 }}
+                      onClick={() => setQ(suggestion)}
+                      className="text-xs bg-white/10 text-gray-300 px-3 py-2 rounded-full hover:bg-white/20 transition-all duration-200 backdrop-blur-sm border border-white/10"
+                    >
+                      {suggestion}
+                    </motion.button>
+                  ))}
+                </div>
+              </motion.div>
+            )}
           
-          {messages.map((m, i) => (
-            <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-              <div className={`max-w-[80%] p-3 rounded-lg ${
-                m.role === "user" 
-                  ? "bg-blue-500 text-white" 
-                  : "bg-gray-100 text-gray-800"
-              }`}>
-                <div>{m.text}</div>
-                {m.sources && m.sources.length > 0 && (
-                  <div className="mt-2 pt-2 border-t border-gray-300 text-xs">
-                    <strong>Sources:</strong> {m.sources.join(", ")}
-                    {m.role === "assistant" && (
-                      <button
-                        onClick={() => speakAnswer(m.text)}
-                        className="ml-2 p-1 rounded hover:bg-gray-200"
-                        disabled={isSpeaking}
-                      >
-                        <SpeakerWaveIcon className="w-4 h-4" />
-                      </button>
-                    )}
+            <AnimatePresence>
+              {messages.map((m, i) => (
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.4, delay: i * 0.1 }}
+                  className={`flex gap-3 ${m.role === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  {/* Avatar for AI */}
+                  {m.role === "assistant" && (
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                      <Brain className="w-5 h-5 text-white" />
+                    </div>
+                  )}
+                  
+                  <div className={`max-w-[75%] ${m.role === "user" ? "order-2" : ""}`}>
+                    <div className={`p-4 rounded-2xl shadow-lg ${
+                      m.role === "user" 
+                        ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white ml-auto" 
+                        : "bg-white/90 backdrop-blur-md text-gray-800 border border-white/20"
+                    }`}>
+                      <div className="prose prose-sm max-w-none">
+                        <ReactMarkdown>{m.text}</ReactMarkdown>
+                      </div>
+                      
+                      {m.sources && m.sources.length > 0 && (
+                        <motion.div 
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: "auto" }}
+                          className="mt-3 pt-3 border-t border-gray-300/30"
+                        >
+                          <div className="flex flex-wrap gap-1 mb-2">
+                            {m.sources.map((source, idx) => (
+                              <motion.button
+                                key={idx}
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ delay: idx * 0.1 }}
+                                className="px-2 py-1 text-xs rounded-lg bg-gray-800 hover:bg-gray-700 text-white transition-colors"
+                              >
+                                {source}
+                              </motion.button>
+                            ))}
+                          </div>
+                          
+                          <button
+                            onClick={() => speakAnswer(m.text)}
+                            disabled={isSpeaking}
+                            className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50"
+                          >
+                            <SpeakerWaveIcon className="w-3 h-3" />
+                            {isSpeaking ? 'Speaking...' : 'Listen'}
+                          </button>
+                        </motion.div>
+                      )}
+                    </div>
                   </div>
+                  
+                  {/* Avatar for User */}
+                  {m.role === "user" && (
+                    <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center shadow-lg">
+                      <User className="w-5 h-5 text-white" />
+                    </div>
+                  )}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          
+            <AnimatePresence>
+              {loading && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="flex justify-start gap-3"
+                >
+                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center shadow-lg">
+                    <Brain className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="bg-white/90 backdrop-blur-md rounded-2xl p-4 text-gray-700 border border-white/20 shadow-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="flex gap-1">
+                        {[0, 1, 2].map((i) => (
+                          <motion.div
+                            key={i}
+                            className="w-2 h-2 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-full"
+                            animate={{ 
+                              scale: [1, 1.2, 1],
+                              opacity: [0.7, 1, 0.7]
+                            }}
+                            transition={{
+                              duration: 1,
+                              repeat: Infinity,
+                              delay: i * 0.2,
+                              ease: "easeInOut"
+                            }}
+                          />
+                        ))}
+                      </div>
+                      <span className="text-sm font-medium">AI is thinking...</span>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+        </div>
+
+          {/* Input Form */}
+          <div className="border-t border-white/10 bg-black/20 backdrop-blur-md p-6">
+            <form onSubmit={ask} className="flex gap-3">
+              <motion.button
+                type="button"
+                onClick={startListening}
+                disabled={isListening || loading}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className={`p-3 rounded-xl transition-all duration-200 ${
+                  isListening 
+                    ? 'bg-gradient-to-r from-red-500 to-pink-500 shadow-lg shadow-red-500/25' 
+                    : 'bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20'
+                }`}
+              >
+                <motion.div
+                  animate={isListening ? { scale: [1, 1.2, 1] } : {}}
+                  transition={{ duration: 0.6, repeat: Infinity }}
+                >
+                  <MicrophoneIcon className={`w-5 h-5 ${isListening ? 'text-white' : 'text-gray-300'}`} />
+                </motion.div>
+              </motion.button>
+              
+              <div className="flex-1 relative">
+                <input
+                  className="w-full bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-6 py-3 text-white placeholder-gray-400 focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all duration-200"
+                  placeholder="Ask intelligent questions about experience, skills, projects..."
+                  value={q}
+                  onChange={e => setQ(e.target.value)}
+                  disabled={loading}
+                />
+                {q && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
+                  >
+                    <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
+                  </motion.div>
                 )}
               </div>
-            </div>
-          ))}
-          
-          {loading && (
-            <div className="flex justify-start">
-              <div className="bg-gray-100 rounded-lg p-3 text-gray-600">
-                <div className="flex items-center gap-2">
-                  <div className="animate-spin w-4 h-4 border-2 border-gray-300 border-t-blue-500 rounded-full"></div>
-                  Thinking...
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Input Form */}
-        <div className="border-t bg-gray-50 p-4">
-          <form onSubmit={ask} className="flex gap-2">
-            <button
-              type="button"
-              onClick={startListening}
-              disabled={isListening || loading}
-              className={`p-2 rounded-lg border ${
-                isListening ? 'bg-red-100 border-red-300' : 'bg-white border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              <MicrophoneIcon className={`w-5 h-5 ${isListening ? 'text-red-500' : 'text-gray-600'}`} />
-            </button>
+              
+              <motion.button 
+                type="submit"
+                disabled={loading || !q.trim() || (uploadedFiles.length > 0 && !embeddingsReady)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl hover:from-cyan-400 hover:to-blue-400 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-medium shadow-lg shadow-cyan-500/25"
+              >
+                <span className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4" />
+                  Ask AI
+                </span>
+              </motion.button>
+            </form>
             
-            <input
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Ask about experience, skills, projects..."
-              value={q}
-              onChange={e => setQ(e.target.value)}
-              disabled={loading}
-            />
-            
-            <button 
-              type="submit"
-              disabled={loading || !q.trim() || (uploadedFiles.length > 0 && !embeddingsReady)}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-xs text-gray-400 mt-3 flex items-center gap-2"
             >
-              Ask
-            </button>
-          </form>
-          
-          <p className="text-xs text-gray-500 mt-2">
-            💡 This bot answers questions using only the uploaded résumé and project files. 
-            {uploadedFiles.length === 0 && " Upload files to get started!"}
-          </p>
-        </div>
-      </div>
-    </main>
+              <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
+              Powered by AI intelligence • Answers sourced from uploaded files
+              {uploadedFiles.length === 0 && " • Upload files to unlock insights"}
+            </motion.p>
+          </div>
+        </motion.div>
+      </main>
+    </div>
   );
 }
