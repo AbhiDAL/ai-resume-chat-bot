@@ -216,11 +216,8 @@ Ask me anything about their background, experience, or what specific skills they
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-cyan-600/20"></div>
-      
-      <main className="relative z-10 mx-auto max-w-4xl p-6 space-y-6">
+    <div className="min-h-screen bg-black">
+      <main className="mx-auto max-w-4xl p-6 space-y-6">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -359,7 +356,7 @@ Ask me anything about their background, experience, or what specific skills they
           transition={{ duration: 0.8, delay: 0.4 }}
           className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl overflow-hidden shadow-xl"
         >
-          <div ref={areaRef} className="h-[50vh] overflow-auto p-6 space-y-4 bg-gradient-to-b from-transparent to-black/20 custom-scrollbar">
+          <div ref={areaRef} className="h-[50vh] overflow-auto p-6 space-y-4 bg-black custom-scrollbar">
             {messages.length === 0 && (
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
