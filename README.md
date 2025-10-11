@@ -1,215 +1,256 @@
-# AI Résumé Chatbot
+````markdown
+# Resume Intelligence Chat Bot
 
-A smart web application that allows recruiters to upload candidate résumé and project files, then ask questions to get AI-powered answers grounded in the candidate's actual experience and work.
+An intelligent web application that enables recruiters and hiring managers to upload candidate resume and project files, then interact with the content through natural language queries. The system uses AI to provide contextual answers based on the uploaded documents.
 
-## 🌟 Features
+## Screenshots
 
-- **📄 File Upload**: Upload résumé and project markdown/text files
-- **🤖 AI-Powered Q&A**: Ask questions about the candidate's experience, skills, and projects
-- **🔍 Source Attribution**: Every answer shows which files the information came from
-- **🎙️ Voice Input**: Use speech-to-text for hands-free questioning
-- **🔊 Text-to-Speech**: Listen to AI responses with built-in voice synthesis
-- **📱 Responsive Design**: Works seamlessly on desktop and mobile devices
-- **⚡ Real-time Streaming**: Watch answers appear in real-time as the AI generates them
+![Screenshot](https://github.com/KarinaKKarinaK/resume-chat-bot/blob/main/data/Screenshot%202025-10-11%20at%2023.59.23.png)
+![Screenshot](https://github.com/KarinaKKarinaK/resume-chat-bot/blob/main/data/Screenshot%202025-10-11%20at%2023.59.50.png)
 
-## 🏗️ Architecture
+## Core Features
 
-- **Frontend**: Next.js 15 with TypeScript and TailwindCSS
-- **Backend**: Next.js API routes with OpenAI integration
-- **AI**: GPT-4 for chat completion, text-embedding-3-small for semantic search
-- **Data**: In-memory vector storage for embeddings (easily upgradeable to Pinecone/Supabase)
+- **Document Upload**: Support for markdown and text files containing resumes and project documentation
+- **Intelligent Q&A**: Natural language querying of uploaded content with AI-powered responses
+- **Source Attribution**: All responses include references to the specific documents used
+- **Voice Interface**: Speech-to-text input and text-to-speech output for accessibility
+- **Real-time Responses**: Streaming AI responses for immediate feedback
+- **Responsive Design**: Optimized for both desktop and mobile devices
 
-## 🚀 Quick Start
+## Technology Stack
+
+### Frontend
+- **Next.js 15** - React framework with App Router
+- **TypeScript** - Type-safe development
+- **TailwindCSS** - Utility-first CSS framework
+- **Framer Motion** - Animation library for smooth transitions
+- **React Markdown** - Markdown rendering for chat responses
+
+### Backend & AI
+- **Next.js API Routes** - Serverless API endpoints
+- **OpenAI GPT-4** - Language model for generating responses (replaceable with other AI APIs)
+- **OpenAI Embeddings** - Text vectorization for semantic search
+- **Vector Search** - In-memory similarity search with cosine similarity
+
+### Additional Libraries
+- **Heroicons & Lucide React** - Icon libraries
+- **Web Speech API** - Browser-native voice recognition and synthesis
+
+## How It Works
+
+The application uses a retrieval-augmented generation (RAG) approach:
+
+1. **Document Processing**: Uploaded files are chunked and converted to vector embeddings
+2. **Query Processing**: User questions are also converted to embeddings
+3. **Similarity Search**: Relevant document chunks are identified using cosine similarity
+4. **Response Generation**: Context and query are sent to the AI model for answer generation
+5. **Source Attribution**: The system tracks which documents contributed to each response
+
+## Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
-- OpenAI API key
+- Node.js 18 or higher
+- OpenAI API key (or compatible AI service)
 
 ### Installation
 
-1. **Clone the repository**
+1. Clone the repository:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/KarinaKKarinaK/resume-chat-bot.git
    cd resume-chat-bot
    ```
 
-2. **Install dependencies**
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. **Set up environment variables**
+3. Configure environment variables:
    ```bash
    cp .env.local.example .env.local
    ```
-   
-   Edit `.env.local` and add your OpenAI API key:
+
+4. Edit `.env.local` with your configuration:
    ```bash
-   OPENAI_API_KEY=your_openai_api_key_here
+   # OpenAI Configuration
+   OPENAI_API_KEY=sk-your-openai-api-key-here
+   OPENAI_CHAT_MODEL=gpt-4o-mini
+   OPENAI_EMBED_MODEL=text-embedding-3-small
    ```
 
-4. **Start the development server**
+5. Start the development server:
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+6. Open your browser and navigate to [http://localhost:3000](http://localhost:3000)
 
-## 💻 How to Use
+## Usage
 
-1. **Upload Files**: Click the upload area and select résumé and project files (.md or .txt format)
-2. **Wait for Processing**: The system will automatically create embeddings from your uploaded content
-3. **Ask Questions**: Type or speak questions about the candidate's experience
-4. **Get Answers**: Receive AI-generated responses with source citations
-5. **Listen to Responses**: Use the speaker icon to hear answers read aloud
+1. **Upload Documents**: Select resume and project files in markdown or text format
+2. **Processing**: The system automatically processes and indexes the content
+3. **Query**: Ask questions about the candidate's background, skills, or experience
+4. **Review Responses**: Receive contextual answers with document source references
+5. **Voice Interaction**: Use microphone for voice input or speaker for audio responses
 
-### Example Questions
+### Example Queries
 - "What programming languages does this person know?"
-- "Tell me about their recent projects"
-- "What's their experience with React and TypeScript?"
-- "How many years of experience do they have?"
-- "What achievements or outcomes did they deliver?"
+- "Describe their experience with machine learning projects"
+- "What frameworks and technologies have they worked with?"
+- "Tell me about their leadership or team collaboration experience"
+- "What are their notable achievements or project outcomes?"
 
-## 📁 Project Structure
+## Project Structure & Routing
+
+The application follows Next.js 15 App Router conventions:
 
 ```
-/src/app
-  /page.tsx                 # Main UI with file upload and chat
-  /api/ask/route.ts        # Chat API with retrieval and streaming
-  /api/build-embeddings/   # Embedding generation endpoint
-/lib
-  /embeddings.ts           # Vector creation and storage
-  /retrieve.ts             # Similarity search and ranking  
-  /prompt.ts               # AI prompt templates
-  /types.ts                # TypeScript definitions
-/data                      # Sample files for testing
+/src/app/
+  ├── page.tsx                    # Main interface (file upload + chat)
+  ├── layout.tsx                  # Root layout component
+  ├── globals.css                 # Global styles and Tailwind imports
+  └── api/                        # API route handlers
+      ├── ask/route.ts           # Chat endpoint with RAG pipeline
+      └── build-embeddings/      # Document processing endpoint
+          └── route.ts
+
+/lib/
+  ├── embeddings.ts              # Vector generation and storage
+  ├── retrieve.ts                # Similarity search algorithms
+  ├── prompt.ts                  # AI prompt engineering
+  └── types.ts                   # TypeScript type definitions
+
+/data/                           # Sample documents for testing
 ```
 
-## 🛠️ Technology Stack
+### Routing Architecture
 
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Styling**: TailwindCSS
-- **Icons**: Heroicons
-- **AI**: OpenAI GPT-4 + embeddings
-- **Voice**: Web Speech API (built-in browser support)
+- **`/`** - Main application interface
+- **`/api/ask`** - POST endpoint for chat queries with streaming responses
+- **`/api/build-embeddings`** - POST endpoint for document processing and vectorization
 
-## 🔧 Configuration
+The API routes handle:
+- Document chunking and embedding generation
+- Vector similarity search
+- AI model integration with context injection
+- Response streaming for real-time user experience
+
+## Configuration
 
 ### Environment Variables
-- `OPENAI_API_KEY`: Your OpenAI API key (required)
-- `OPENAI_CHAT_MODEL`: Chat model (default: gpt-4o-mini)  
-- `OPENAI_EMBED_MODEL`: Embedding model (default: text-embedding-3-small)
 
-### Customization
-- Modify `lib/prompt.ts` to adjust AI behavior and response style
-- Update `lib/embeddings.ts` to change chunk size or embedding logic
-- Edit `src/app/page.tsx` to customize the UI and user experience
+Create a `.env.local` file in the project root:
 
-## 📊 Performance & Scalability
+```bash
+# Required: OpenAI API Configuration
+OPENAI_API_KEY=sk-your-actual-openai-api-key-here
 
-**Current Setup (Demo-Ready)**:
-- In-memory vector storage
-- File-based embedding persistence  
-- Suitable for 100s of documents
+# Optional: Model Configuration (defaults shown)
+OPENAI_CHAT_MODEL=gpt-4o-mini
+OPENAI_EMBED_MODEL=text-embedding-3-small
+```
 
-**Production Upgrades**:
-- **Database**: Move to Supabase pgvector or Pinecone for vector storage
-- **Caching**: Add Redis for embedding and response caching
-- **Storage**: Use AWS S3 or similar for file storage
-- **Authentication**: Add user accounts and file management
+### AI Provider Flexibility
 
-## 🚀 Deployment
+While the application currently uses OpenAI, it can be adapted for other AI providers:
+
+- **Chat Models**: Replace OpenAI calls in `/src/app/api/ask/route.ts`
+- **Embeddings**: Modify embedding generation in `/lib/embeddings.ts`
+- **Supported Alternatives**: Anthropic Claude, Google Gemini, local models via Ollama
+
+### Customization Options
+
+- **Prompt Engineering**: Modify system prompts in `lib/prompt.ts`
+- **Document Processing**: Adjust chunking strategy in `lib/embeddings.ts`
+- **Search Parameters**: Configure similarity thresholds in `lib/retrieve.ts`
+- **UI Components**: Update interface elements in `src/app/page.tsx`
+
+## Performance & Scalability
+
+### Current Architecture
+- **Vector Storage**: In-memory with session persistence
+- **Document Limit**: Optimized for hundreds of documents per session
+- **Response Time**: Sub-second query processing for typical resume content
+
+### Production Considerations
+- **Vector Database**: Migrate to Pinecone, Weaviate, or Supabase pgvector
+- **Caching Layer**: Implement Redis for embedding and response caching
+- **File Storage**: Use cloud storage (AWS S3, Google Cloud Storage)
+- **Authentication**: Add user management and document access control
+- **Rate Limiting**: Implement API rate limiting for production use
+
+## Deployment
 
 ### Vercel (Recommended)
 
-#### Option 1: Deploy via Vercel CLI
-1. **Install Vercel CLI**
-   ```bash
-   npm i -g vercel
-   ```
-
-2. **Login to Vercel**
-   ```bash
-   vercel login
-   ```
-
-3. **Deploy from your project directory**
-   ```bash
-   vercel
-   ```
-
-4. **Set environment variables**
-   ```bash
-   vercel env add OPENAI_API_KEY
-   vercel env add OPENAI_CHAT_MODEL
-   vercel env add OPENAI_EMBED_MODEL
-   ```
-
-5. **Redeploy with environment variables**
-   ```bash
-   vercel --prod
-   ```
-
-#### Option 2: Deploy via Vercel Dashboard
-1. **Push code to GitHub** (if not already done)
+1. **Push to GitHub**:
    ```bash
    git add .
-   git commit -m "Prepare for Vercel deployment"
+   git commit -m "Ready for deployment"
    git push origin main
    ```
 
-2. **Go to [vercel.com](https://vercel.com) and sign in**
+2. **Deploy via Vercel Dashboard**:
+   - Visit [vercel.com](https://vercel.com) and sign in with GitHub
+   - Click "New Project" and import your repository
+   - Vercel automatically detects Next.js configuration
 
-3. **Import your GitHub repository**
-   - Click "New Project"
-   - Select your GitHub repository
-   - Vercel will auto-detect Next.js settings
+3. **Configure Environment Variables**:
+   - Add environment variables in project settings:
+     - `OPENAI_API_KEY`
+     - `OPENAI_CHAT_MODEL` 
+     - `OPENAI_EMBED_MODEL`
 
-4. **Configure Environment Variables**
-   - In project settings, add:
-   - `OPENAI_API_KEY`: Your OpenAI API key
-   - `OPENAI_CHAT_MODEL`: `gpt-4o-mini`
-   - `OPENAI_EMBED_MODEL`: `text-embedding-3-small`
+4. **Deploy**: Click deploy and your app will be live
 
-5. **Deploy**
-   - Click "Deploy"
-   - Your app will be live at `https://your-project.vercel.app`
-
-### Manual Deployment
+### Alternative: Vercel CLI
 ```bash
-npm run build
-npm start
+npx vercel login
+npx vercel
+npx vercel env add OPENAI_API_KEY
+npx vercel --prod
 ```
 
-### Environment Variables for Production
-Make sure to set these in your Vercel dashboard:
-- `OPENAI_API_KEY`: Your OpenAI API key (required)
-- `OPENAI_CHAT_MODEL`: `gpt-4o-mini` (or your preferred model)
-- `OPENAI_EMBED_MODEL`: `text-embedding-3-small`
+### Other Platforms
+The application can be deployed on any Node.js hosting platform:
+- **Netlify**: Works with serverless functions
+- **Railway**: Simple container deployment
+- **DigitalOcean App Platform**: Managed deployment option
 
-## 🧪 Testing
+## Testing
 
-The `/data` folder includes sample files for testing:
-- `sample-resume.md` - Example software engineer résumé
-- `ecommerce-project.md` - Detailed project description
-- `ai-task-management.md` - Complex technical project
+Sample documents in the `/data` folder can be used to test functionality:
+- `sample-resume.md` - Software engineer resume example
+- `ecommerce-project.md` - E-commerce project documentation  
+- `ai-task-management.md` - AI/ML project case study
 
-## 🤝 Contributing
+## Development
+
+### Local Development
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+```
+
+### Code Structure
+- Follow TypeScript strict mode conventions
+- Use functional components with React hooks
+- Implement proper error handling for API routes
+- Maintain consistent naming conventions
+
+## Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch: `git checkout -b feature-name`
+3. Make your changes and test thoroughly
+4. Commit with descriptive messages: `git commit -m 'Add feature description'`
+5. Push to your fork: `git push origin feature-name`
+6. Submit a pull request
 
-## 📝 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
-## 🙏 Acknowledgments
-
-- Built following the architecture outlined in `instructions.md`
-- Inspired by modern AI-powered recruitment tools
-- Uses OpenAI's powerful language models for natural conversations
+````
