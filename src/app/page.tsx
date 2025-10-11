@@ -129,12 +129,20 @@ Ask me anything about their background, experience, or what specific skills they
       return;
     }
     
-    const recognition = new (window as any).webkitSpeechRecognition();
+    const recognition = new (window as unknown as { webkitSpeechRecognition: new() => unknown }).webkitSpeechRecognition() as {
+      continuous: boolean;
+      interimResults: boolean;
+      onresult: ((event: { results: { [key: number]: { [key: number]: { transcript: string } } } }) => void) | null;
+      onerror: ((event: unknown) => void) | null;
+      onend: (() => void) | null;
+      start: () => void;
+      stop: () => void;
+    };
     recognition.continuous = false;
     recognition.interimResults = false;
     
     setIsListening(true);
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: { results: { [key: number]: { [key: number]: { transcript: string } } } }) => {
       const transcript = event.results[0][0].transcript;
       setQ(transcript);
       setIsListening(false);

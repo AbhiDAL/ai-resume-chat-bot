@@ -75,15 +75,16 @@ export async function buildEmbeddingIndexFromFiles(files: UploadedFile[]): Promi
   const indexed: Chunk[] = chunks.map((c, i) => ({ ...c, embedding: vectors[i] }));
   
   // Store in memory for this session (you could also save to a file)
-  (global as any).embeddingIndex = indexed;
+  (global as unknown as { embeddingIndex?: Chunk[] }).embeddingIndex = indexed;
   
   return indexed;
 }
 
 export function loadEmbeddingIndex(): Chunk[] {
   // First try to load from global memory (for uploaded files)
-  if ((global as any).embeddingIndex) {
-    return (global as any).embeddingIndex;
+  const globalStore = global as unknown as { embeddingIndex?: Chunk[] };
+  if (globalStore.embeddingIndex) {
+    return globalStore.embeddingIndex;
   }
   
   // Fallback to file-based embeddings

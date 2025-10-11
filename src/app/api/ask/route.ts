@@ -45,16 +45,14 @@ export async function POST(req: NextRequest) {
     const encoder = new TextEncoder();
     const readable = new ReadableStream({
       async start(controller) {
-        let responseText = "";
         for await (const chunk of stream) {
           const delta = chunk.choices?.[0]?.delta?.content ?? "";
           if (delta) {
-            responseText += delta;
             controller.enqueue(encoder.encode(delta));
           }
         }
         // Append sources at the end in a special format
-        const sources = hits.map((h: any) => h.source);
+        const sources = hits.map(h => h.source);
         controller.enqueue(encoder.encode(`SOURCES:${JSON.stringify(sources)}`));
         controller.close();
       }
@@ -66,7 +64,8 @@ export async function POST(req: NextRequest) {
         "Cache-Control": "no-cache"
       }
     });
-  } catch (e:any) {
-    return new Response(`Error: ${e.message}`, { status: 500 });
+  } catch (e: unknown) {
+    const errorMessage = e instanceof Error ? e.message : 'Unknown error occurred';
+    return new Response(`Error: ${errorMessage}`, { status: 500 });
   }
 }
