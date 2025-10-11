@@ -1,4 +1,3 @@
-````markdown
 # Resume Intelligence Chat Bot
 
 An intelligent web application that enables recruiters and hiring managers to upload candidate resume and project files, then interact with the content through natural language queries. The system uses AI to provide contextual answers based on the uploaded documents.
@@ -253,4 +252,3 @@ npm run lint         # Run ESLint
 
 This project is licensed under the MIT License.
 
-````
