@@ -19,19 +19,35 @@ export async function POST(req: NextRequest) {
     const embedModel = process.env.OPENAI_EMBED_MODEL || "text-embedding-3-small";
     const chatModel = process.env.OPENAI_CHAT_MODEL || "gpt-4o-mini";
 
-    // 1) embed query
-    const qEmbed = await openai.embeddings.create({ model: embedModel, input: question });
-    const qVec = qEmbed.data[0].embedding;
+    // 1) Try to load embeddings, handle case when none available
+    let hits: Array<{ id: string; source: string; text: string; score: number }> = [];
+    let hasEmbeddings = true;
+    
+    try {
+      const index = loadEmbeddingIndex();
+      
+      // 2) embed query if we have embeddings
+      const qEmbed = await openai.embeddings.create({ model: embedModel, input: question });
+      const qVec = qEmbed.data[0].embedding;
+      
+      // 3) retrieve relevant chunks
+      hits = topK(qVec, index, 5);
+    } catch {
+      // No embeddings available, we'll answer without context
+      hasEmbeddings = false;
+      hits = [];
+    }
 
-    // 2) retrieve
-    const index = loadEmbeddingIndex();
-    const hits = topK(qVec, index, 5);
-
-    // 3) prompt
+    // 4) prompt
     const sys = systemPrompt();
-    const usr = userPrompt(question, hits.map(h => ({ source: h.source, text: h.text })));
+    const context = hasEmbeddings 
+      ? hits.map(h => `[${h.source}] ${h.text}`).join('\n\n')
+      : undefined;
+    const usr = hasEmbeddings 
+      ? userPrompt(question, context)
+      : userPrompt(question);
 
-    // 4) stream
+    // 5) stream
     const stream = await openai.chat.completions.create({
       model: chatModel,
       messages: [
@@ -52,7 +68,7 @@ export async function POST(req: NextRequest) {
           }
         }
         // Append sources at the end in a special format
-        const sources = hits.map(h => h.source);
+        const sources = hasEmbeddings ? hits.map(h => h.source) : ["General AI Knowledge"];
         controller.enqueue(encoder.encode(`SOURCES:${JSON.stringify(sources)}`));
         controller.close();
       }

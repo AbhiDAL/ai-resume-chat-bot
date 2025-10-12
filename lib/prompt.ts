@@ -1,18 +1,21 @@
 // system + user prompt builders
-// /lib/prompt.ts
 export function systemPrompt() {
-  return `You are a helpful assistant that answers questions using the candidate’s résumé and projects.
-- Be concise and specific.
-- Cite the snippets you used as [source:file-or-section].
-- If the answer is not in the provided text, say you do not know.`;
+  return "You are a helpful AI assistant for resume analysis and career-related questions.\n" +
+    "- When candidate files are available, answer questions using the resume and project information provided.\n" +
+    "- When no files are uploaded, provide general helpful career advice and guidance.\n" +
+    "- Be concise and specific in your responses.\n" +
+    "- Always be encouraging and constructive.\n" +
+    "- Provide actionable insights when possible.";
 }
 
-export function userPrompt(q: string, snippets: {source:string; text:string}[]) {
-  const ctx = snippets.map(s => `[${s.source}] ${s.text}`).join("\n\n");
-  return `Question: ${q}
-
-Use this information:
-${ctx}
-
-Give a short, direct answer and mention which parts you used.`;
+export function userPrompt(question: string, context?: string) {
+  if (context) {
+    return "Here is the relevant content from the uploaded files:\n\n" +
+      context + "\n\n" +
+      "Based on this information, please answer the following question:\n" +
+      question;
+  } else {
+    return "Please provide general career advice for the following question:\n" +
+      question;
+  }
 }
