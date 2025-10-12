@@ -7,6 +7,10 @@ An intelligent web application that enables recruiters and hiring managers to up
 ![Screenshot](https://github.com/KarinaKKarinaK/resume-chat-bot/blob/main/data/Screenshot%202025-10-11%20at%2023.59.32.png)
 ![Screenshot](https://github.com/KarinaKKarinaK/resume-chat-bot/blob/main/data/Screenshot%202025-10-11%20at%2023.59.50.png)
 
+## Demo Video
+[![Resume Intelligence Chat Bot Demo](https://github.com/KarinaKKarinaK/resume-chat-bot/blob/main/data/Screen%20Recording%202025-10-12%20at%2015.34.33.mov)](https://github.com/KarinaKKarinaK/resume-chat-bot/blob/main/data/Screen%20Recording%202025-10-12%20at%2015.34.33.mov)
+
+
 ## Core Features
 
 - **Document Upload**: Support for markdown and text files containing resumes and project documentation
