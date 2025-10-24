@@ -4,15 +4,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeftIcon,
   CodeBracketIcon,
-  CommandLineIcon,
   DocumentTextIcon,
   CogIcon,
   RocketLaunchIcon,
   CheckCircleIcon,
   ExclamationTriangleIcon,
-  InformationCircleIcon,
 } from "@heroicons/react/24/outline";
-import { Brain, Sparkles, User, ChevronRightIcon } from "lucide-react";
+import { Brain, ChevronRightIcon } from "lucide-react";
 import Link from "next/link";
 
 export default function TutorialPage() {

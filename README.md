@@ -28,34 +28,39 @@ Visit the live application: [https://ai-resume-chat-bot.vercel.app](https://ai-r
 
 ### Prerequisites
 
-- Node.js 18+ 
+- Node.js 18+
 - OpenAI API key
 - Git
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/AbhiDAL/ai-resume-chat-bot.git
    cd ai-resume-chat-bot
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env.local
    ```
-   
+
    Add your OpenAI API key to `.env.local`:
+
    ```env
    OPENAI_API_KEY=your_openai_api_key_here
    ```
 
 4. **Run the development server**
+
    ```bash
    npm run dev
    ```
@@ -65,9 +70,10 @@ Visit the live application: [https://ai-resume-chat-bot.vercel.app](https://ai-r
 
 ## 📚 Learn to Build It
 
-This repository includes a comprehensive tutorial that teaches you how to build this entire project from scratch! 
+This repository includes a comprehensive tutorial that teaches you how to build this entire project from scratch!
 
 **Click the "Learn to Build It" button** in the app or visit `/tutorial` to access:
+
 - Complete step-by-step instructions
 - All source code with explanations
 - Configuration files
@@ -131,6 +137,7 @@ ai-resume-chat-bot/
 ### Other Platforms
 
 The app can be deployed to any platform that supports Next.js:
+
 - Netlify
 - Railway
 - AWS Amplify
