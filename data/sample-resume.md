@@ -1,66 +1,49 @@
-# Alex Carter - Software Engineer
+# John Smith - Full Stack Developer
 
 ## Contact Information
-- Email: alex.carter@email.com
+
+- Email: john.smith@email.com
 - Phone: (555) 123-4567
-- LinkedIn: linkedin.com/in/alexcarter
-- GitHub: github.com/alexcarter
-- Location: San Francisco, CA
+- LinkedIn: linkedin.com/in/johnsmith
+- GitHub: github.com/johnsmith
 
 ## Professional Summary
-Experienced full-stack software engineer with 5+ years developing scalable web applications. Expertise in React, Node.js, Python, and cloud technologies. Proven track record of delivering high-quality software solutions and leading technical initiatives.
+
+Experienced Full Stack Developer with 5+ years of experience building scalable web applications using modern technologies. Passionate about creating efficient, user-friendly solutions and leading development teams.
 
 ## Technical Skills
 
-### Programming Languages
-- **Frontend:** JavaScript (ES6+), TypeScript, HTML5, CSS3
-- **Backend:** Python, Node.js, Java
-- **Database:** PostgreSQL, MongoDB, Redis
-- **Cloud:** AWS (EC2, S3, RDS, Lambda), Google Cloud Platform
-- **DevOps:** Docker, Kubernetes, Jenkins, GitHub Actions
-
-### Frameworks & Libraries
-- React, Next.js, Express.js
-- Django, Flask, FastAPI
-- TailwindCSS, Material-UI
-- Jest, Cypress, Pytest
+- **Programming Languages:** JavaScript, TypeScript, Python, Java, C#
+- **Frontend:** React, Next.js, Vue.js, Angular, HTML5, CSS3, Tailwind CSS
+- **Backend:** Node.js, Express.js, Django, Spring Boot, ASP.NET Core
+- **Databases:** PostgreSQL, MongoDB, MySQL, Redis
+- **Cloud & DevOps:** AWS, Azure, Docker, Kubernetes, CI/CD
+- **Tools:** Git, VS Code, Postman, Jira, Slack
 
 ## Professional Experience
 
-### Senior Software Engineer | TechCorp Inc. | 2021 - Present
-- Led development of a React-based dashboard serving 100k+ monthly active users
-- Designed and implemented RESTful APIs using Node.js and PostgreSQL
-- Reduced application load time by 40% through code splitting and performance optimization
-- Mentored 3 junior developers and conducted code reviews
-- Collaborated with product managers and designers in agile development cycles
+### Senior Full Stack Developer | TechCorp Inc. | 2021 - Present
 
-### Software Engineer | StartupXYZ | 2019 - 2021
-- Built full-stack web applications using React, Python, and PostgreSQL
-- Implemented CI/CD pipelines reducing deployment time by 60%
-- Developed microservices architecture handling 1M+ requests per day
-- Integrated third-party APIs including payment processing and analytics
-- Participated in on-call rotation ensuring 99.9% uptime
+- Led development of microservices architecture serving 100K+ users
+- Implemented real-time features using WebSockets and Redis
+- Mentored junior developers and conducted code reviews
+- Reduced application load time by 40% through performance optimization
 
-### Junior Developer | WebSolutions | 2018 - 2019
-- Developed responsive web interfaces using HTML, CSS, and JavaScript
-- Maintained legacy PHP applications and performed bug fixes
-- Collaborated with senior developers to learn best practices
-- Wrote unit tests achieving 85% code coverage
+### Full Stack Developer | StartupXYZ | 2019 - 2021
+
+- Built responsive web applications using React and Node.js
+- Integrated third-party APIs and payment systems
+- Collaborated with design team to implement pixel-perfect UIs
+- Implemented automated testing reducing bugs by 60%
 
 ## Education
 
-### Bachelor of Science in Computer Science
-**University of California, Berkeley** | 2014 - 2018
-- GPA: 3.7/4.0
-- Relevant Coursework: Data Structures, Algorithms, Database Systems, Software Engineering
-- Senior Project: Built a machine learning-powered recommendation system
+- **Bachelor of Science in Computer Science** | University of Technology | 2019
+- **AWS Certified Solutions Architect** | Amazon Web Services | 2022
+- **Google Cloud Professional Developer** | Google Cloud | 2021
 
-## Certifications
-- AWS Certified Developer Associate (2022)
-- Google Cloud Professional Developer (2021)
+## Projects
 
-## Notable Achievements
-- **Performance Optimization:** Improved application performance by 40% through React optimization techniques
-- **Team Leadership:** Successfully led a team of 4 developers on a critical product feature
-- **Innovation:** Developed an internal tool that reduced manual testing time by 50%
-- **Open Source:** Active contributor to several open-source projects with 500+ GitHub stars
+- **E-commerce Platform:** Built full-stack e-commerce solution with React, Node.js, and PostgreSQL
+- **Task Management App:** Created collaborative task management tool with real-time updates
+- **API Gateway:** Designed and implemented microservices API gateway using Node.js and Express
