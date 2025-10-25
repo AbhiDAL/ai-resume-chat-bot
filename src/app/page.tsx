@@ -653,7 +653,7 @@ Ask me anything about their background, experience, or what specific skills they
               </form>
 
               {isClient && (
-                <motion.p
+                <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: 0.5 }}
@@ -664,7 +664,7 @@ Ask me anything about their background, experience, or what specific skills they
                   files
                   {uploadedFiles.length === 0 &&
                     " • Upload files to unlock insights"}
-                </motion.p>
+                </motion.div>
               )}
             </div>
           </motion.div>
