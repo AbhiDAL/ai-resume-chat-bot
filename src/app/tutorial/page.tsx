@@ -1587,7 +1587,7 @@ npm run dev
 
 ### 7.2 Open Your Browser
 1. Go to [http://localhost:3000](http://localhost:3000)
-2. You should see your beautiful AI Resume Intelligence app!
+2. You should see your beautiful AI Resume Chatbot app!
 
 ### 7.3 Test the Features
 1. **Upload Files:** Click the upload area and select your sample resume files
