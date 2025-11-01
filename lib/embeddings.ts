@@ -5,11 +5,6 @@ import path from "node:path";
 import OpenAI from "openai";
 import type { Chunk, UploadedFile } from "./types";
 
-// Ensure environment variables are loaded
-if (typeof window === "undefined") {
-  require("dotenv").config({ path: path.join(process.cwd(), ".env.local") });
-}
-
 const CHUNK_SIZE = 700;
 
 export async function buildEmbeddingIndex(): Promise<Chunk[]> {

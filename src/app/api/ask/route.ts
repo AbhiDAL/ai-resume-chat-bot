@@ -8,12 +8,6 @@ import { systemPrompt, userPrompt } from "../../../../lib/prompt";
 
 export const runtime = "nodejs"; // or "edge" if you prefer
 
-// Ensure environment variables are loaded
-if (typeof window === "undefined") {
-  const path = require("path");
-  require("dotenv").config({ path: path.join(process.cwd(), ".env.local") });
-}
-
 export async function POST(req: NextRequest) {
   try {
     const { question } = await req.json();
