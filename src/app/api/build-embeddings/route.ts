@@ -2,6 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { buildEmbeddingIndexFromFiles } from "../../../../lib/embeddings";
 import type { UploadedFile } from "../../../../lib/types";
 
+// Ensure environment variables are loaded
+if (typeof window === "undefined") {
+  const path = require("path");
+  require("dotenv").config({ path: path.join(process.cwd(), ".env.local") });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { files }: { files: UploadedFile[] } = await req.json();

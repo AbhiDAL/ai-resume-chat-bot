@@ -8,6 +8,12 @@ import { systemPrompt, userPrompt } from "../../../../lib/prompt";
 
 export const runtime = "nodejs"; // or "edge" if you prefer
 
+// Ensure environment variables are loaded
+if (typeof window === "undefined") {
+  const path = require("path");
+  require("dotenv").config({ path: path.join(process.cwd(), ".env.local") });
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { question } = await req.json();
@@ -20,8 +26,17 @@ export async function POST(req: NextRequest) {
       process.env.OPENAI_API_KEY || process.env.NEXT_PUBLIC_OPENAI_API_KEY;
 
     if (!apiKey) {
+      console.error("OPENAI_API_KEY not found in process.env");
+      console.error(
+        "Available env vars:",
+        Object.keys(process.env).filter((k) => k.includes("OPENAI"))
+      );
       return new Response(
-        "Error: OPENAI_API_KEY environment variable is not set. Please check your .env.local file.",
+        `Error: OPENAI_API_KEY environment variable is not set. Please check your .env.local file. Available keys: ${
+          Object.keys(process.env)
+            .filter((k) => k.includes("OPENAI"))
+            .join(", ") || "none"
+        }`,
         { status: 500 }
       );
     }

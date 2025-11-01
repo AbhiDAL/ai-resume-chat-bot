@@ -6,6 +6,7 @@ import {
   DocumentPlusIcon,
   MicrophoneIcon,
   SpeakerWaveIcon,
+  StopIcon,
 } from "@heroicons/react/24/outline";
 import { Sparkles, Brain, User } from "lucide-react";
 import ReactMarkdown from "react-markdown";
@@ -177,7 +178,16 @@ Ask me anything about their background, experience, or what specific skills they
       setIsSpeaking(true);
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => setIsSpeaking(false);
       window.speechSynthesis.speak(utterance);
+    }
+  }
+
+  // Stop text-to-speech
+  function stopSpeaking() {
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
     }
   }
 
@@ -525,12 +535,22 @@ Ask me anything about their background, experience, or what specific skills they
                             </div>
 
                             <button
-                              onClick={() => speakAnswer(m.text)}
-                              disabled={isSpeaking}
-                              className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-gray-800 transition-colors disabled:opacity-50"
+                              onClick={() =>
+                                isSpeaking ? stopSpeaking() : speakAnswer(m.text)
+                              }
+                              className="inline-flex items-center gap-1 text-xs text-gray-600 hover:text-gray-800 transition-colors"
                             >
-                              <SpeakerWaveIcon className="w-3 h-3" />
-                              {isSpeaking ? "Speaking..." : "Listen"}
+                              {isSpeaking ? (
+                                <>
+                                  <StopIcon className="w-3 h-3" />
+                                  Stop
+                                </>
+                              ) : (
+                                <>
+                                  <SpeakerWaveIcon className="w-3 h-3" />
+                                  Listen
+                                </>
+                              )}
                             </button>
                           </motion.div>
                         )}
